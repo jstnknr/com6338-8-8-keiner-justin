@@ -18,7 +18,7 @@ var inputValue = document.getElementById('weather-search')
 
 form.onsubmit = function(e) {
     e.preventDefault()
-    fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputValue.value+'&appid=78dc242a8f55c5581e2315885ba9ac52')
+    fetch('https://api.openweathermap.org/data/2.5/weather?q='+inputValue.value+'&appid=78dc242a8f55c5581e2315885ba9ac52&units=imperial')
     .then(function(res){
         if(res.status !== 200) {
             throw new Error('Location not found')
@@ -40,7 +40,10 @@ form.onsubmit = function(e) {
 
         var weatherIcon = document.createElement('img')
         //weatherIcon.src = 'https://openweathermap.org/img/wn/'+data.weather[0]+'.png'
-        weatherIcon.src = 'https://openweathermap.org/img/wn/02d@2x.png'
+        //weatherIcon.src = 'https://openweathermap.org/img/wn/02d@2x.png'
+        weatherIcon.src = 'https://openweathermap.org/img/wn/'+data.weather[0].icon+'@2x.png'
+        //weatherIcon.alt = currentCondition
+
         weatherDiv.appendChild(weatherIcon)
 
         var currentCondition = document.createElement('p')
@@ -56,12 +59,13 @@ form.onsubmit = function(e) {
         weatherDiv.appendChild(feelsTemp)
 
         var lastUpdated = document.createElement('p')
-        lastUpdated.textContent = 'Last Updated:'+new Date().toLocaleTimeString()
+        lastUpdated.textContent = 'Last Updated: '+new Date().toLocaleTimeString()
         weatherDiv.appendChild(lastUpdated)
 
     })
-   // .catch(function(err)){
-   //     weatherDiv.innerHTML = err.message
-   // }
+
+    .catch(function(err){
+        weatherDiv.innerHTML = err.message
+    })
 }
  
